@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grimoire | Chapter Mastery</title>
+<style>
+:root{--bg:#0b0e0d;--panel:#141a17;--panel2:#1b241f;--text:#edf4ee;--muted:#98a79d;--gold:#e5c46a;--green:#48c878;--yellow:#f2cf45;--blue:#4c91ff;--red:#f15a5a;--line:#2b3930}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17271d 0%,var(--bg) 55%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{max-width:1100px;margin:auto;padding:24px 16px 50px}.hero{display:flex;align-items:center;gap:16px;margin-bottom:22px}.crest{width:66px;height:66px;border:1px solid #49634d;border-radius:18px;display:grid;place-items:center;font-size:34px;color:var(--gold);background:linear-gradient(145deg,#213b29,#111713);box-shadow:0 0 28px #3a9d4b22}
+h1{font-size:clamp(25px,4vw,39px);margin:0;letter-spacing:.5px}.sub{color:var(--muted);margin-top:5px;font-size:14px}.eyebrow{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0}.stat,.subject,.toolbar,.legend{background:#121815d9;border:1px solid var(--line);border-radius:16px;padding:15px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;font-size:25px;margin-top:5px}.progress{height:7px;background:#28332c;border-radius:99px;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3aa95b,var(--gold));border-radius:99px;transition:width .25s}
+.toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:14px}.toolbar input,.toolbar select{background:#0d120f;border:1px solid #34463a;color:var(--text);border-radius:10px;padding:11px 12px;font:inherit;min-width:140px}.toolbar input{flex:1}.btn{border:1px solid #3b5942;background:#1b2a20;color:var(--text);padding:10px 13px;border-radius:10px;cursor:pointer;font-weight:650}.btn:hover{border-color:var(--gold);transform:translateY(-1px)}.btn.danger{border-color:#623737;background:#291717}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-bottom:20px}.key{display:flex;align-items:center;gap:6px}.dot{width:10px;height:10px;border-radius:50%}
+.subject{margin-bottom:18px;padding:17px}.subject-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.subject-title{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800}.symbol{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;font-size:17px;background:#26332a}.subject small{color:var(--muted)}.papers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.paper{background:#0e1310;border:1px solid #28372d;border-radius:13px;padding:13px}.paper h3{font-size:13px;color:var(--muted);margin:0 0 11px;letter-spacing:.3px}.chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.chapter{border:1px solid #2a382f;background:#18201b;color:var(--text);min-height:58px;border-radius:10px;text-align:left;padding:10px;cursor:pointer;display:flex;gap:9px;align-items:center;transition:.15s}.chapter:hover{border-color:#839d85;transform:translateY(-1px)}.num{flex:0 0 25px;width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:#26332a;color:#a9b9ad;font-size:11px;font-weight:800}.chapter-name{font-size:13px;line-height:1.45}.chapter.done1{background:#153321;border-color:#2c9e55}.chapter.done1 .num{background:var(--green);color:#07150b}.chapter.done2{background:#332c10;border-color:#b69b2d}.chapter.done2 .num{background:var(--yellow);color:#241e00}.chapter.done3{background:#142747;border-color:#397bdc}.chapter.done3 .num{background:var(--blue);color:#07152b}.chapter.done4{background:#351919;border-color:#c84a4a}.chapter.done4 .num{background:var(--red);color:#260707}
+.empty{padding:25px;text-align:center;color:var(--muted);display:none}.footer{text-align:center;color:#75877a;font-size:12px;margin-top:24px;line-height:1.7}
+@media(max-width:700px){.wrap{padding:17px 11px 35px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.papers{grid-template-columns:1fr}.chapters{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{align-items:flex-start}.crest{width:52px;height:52px;font-size:27px}.stat strong{font-size:22px}.toolbar input{min-width:100%}}
+@media(max-width:380px){.chapters{grid-template-columns:1fr}.subject-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="crest">♧</div>
+    <div><div class="eyebrow">The path to the Wizard King</div><h1>GRIMOIRE <span style="color:var(--gold)">·</span> Chapter Mastery</h1><div class="sub">One chapter at a time. Four rounds to mastery.</div></div>
+  </header>
+  <section class="stats">
+    <div class="stat"><span>OVERALL PROGRESS</span><strong id="overall">0%</strong><div class="progress"><i id="overallBar"></i></div></div>
+    <div class="stat"><span>CHAPTERS MASTERED</span><strong id="mastered">0 / 0</strong><div class="sub">Red = 4 rounds complete</div></div>
+    <div class="stat"><span>STUDY ROUNDS</span><strong id="rounds">0</strong><div class="sub">Total chapter completions</div></div>
+    <div class="stat"><span>GRIMOIRE RANK</span><strong id="rank">Novice</strong><div class="sub" id="rankText">Start your journey.</div></div>
+  </section>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search chapter name..." aria-label="Search chapter">
+    <select id="subjectFilter" aria-label="Filter subject"><option value="all">All subjects</option><option value="math">Math</option><option value="physics">Physics</option><option value="chemistry">Chemistry</option><option value="biology">Biology</option></select>
+    <select id="statusFilter" aria-label="Filter status"><option value="all">All chapters</option><option value="0">Not started</option><option value="1">Green · Round 1</option><option value="2">Yellow · Round 2</option><option value="3">Blue · Round 3</option><option value="4">Red · Round 4</option></select>
+    <button class="btn" id="exportBtn">Export backup</button>
+    <button class="btn" id="importBtn">Import</button><input type="file" id="importFile" accept=".json,application/json" hidden>
+    <button class="btn danger" id="resetBtn">Reset</button>
+  </div>
+  <div class="legend">
+    <span class="key"><i class="dot" style="background:var(--green)"></i> 1st round</span>
+    <span class="key"><i class="dot" style="background:var(--yellow)"></i> 2nd round</span>
+    <span class="key"><i class="dot" style="background:var(--blue)"></i> 3rd round</span>
+    <span class="key"><i class="dot" style="background:var(--red)"></i> 4th round · Mastered</span>
+    <span>Tap a chapter to advance its round. After red, next tap resets it.</span>
+  </div>
+  <main id="subjects"></main>
+  <div class="empty" id="empty">No chapters match your search.</div>
+  <div class="footer">Your progress is saved in this browser on this device.<br>Export a backup before clearing browser data or changing devices.</div>
+</div>
+<script>
+const subjects = [
+ {id:"math",name:"Math",icon:"✦",color:"#e85a5a",papers:[
+  {name:"Higher Math 1st Paper",chapters:["ম্যাট্রিক্স ও নির্ণায়ক","ভেক্টর","সরলরেখা","বৃত্ত","বিন্যাস ও সমাবেশ","ত্রিকোণমিতিক অনুপাত","সংযুক্ত কোণের ত্রিকোণমিতিক অনুপাত","ফাংশন ও ফাংশনের লেখচিত্র","অন্তরীকরণ","যোগজীকরণ"]},
+  {name:"Higher Math 2nd Paper",chapters:["বাস্তব সংখ্যা ও অসমতা","যোগাশ্রয়ী প্রোগ্রাম","জটিল সংখ্যা","বহুপদী ও বহুপদী সমীকরণ","দ্বিপদী বিস্তৃতি","কণিক","বিপরীত ত্রিকোণমিতিক ও ত্রিকোণমিতিক সমীকরণ","স্থিতিবিদ্যা","গতিবিদ্যা","বিস্তার পরিমাপ ও সম্ভাবনা"]}
+ ]},
+ {id:"physics",name:"Physics",icon:"⚡",color:"#4c91ff",papers:[
+  {name:"Physics 1st Paper",chapters:["ভৌত জগৎ ও পরিমাপ","ভেক্টর","গতিবিদ্যা","নিউটনীয় বলবিদ্যা","কাজ, শক্তি ও ক্ষমতা","মহাকর্ষ ও অভিকর্ষ","পদার্থের গাঠনিক ধর্ম","পর্যাবৃত্ত গতি","তরঙ্গ","আদর্শ গ্যাস ও গ্যাসের গতিতত্ত্ব"]},
+  {name:"Physics 2nd Paper",chapters:["তাপগতিবিদ্যা","স্থির তড়িৎ","চল তড়িৎ","তড়িৎ প্রবাহের চৌম্বক ক্রিয়া ও চুম্বকত্ব","তড়িৎ চৌম্বকীয় আবেশ ও পরিবর্তী প্রবাহ","জ্যামিতিক আলোকবিজ্ঞান","ভৌত আলোকবিজ্ঞান","আধুনিক পদার্থবিজ্ঞানের সূচনা","পরমাণুর মডেল ও নিউক্লিয়ার পদার্থবিজ্ঞান","সেমিকন্ডাক্টর ও ইলেকট্রনিক্স","জ্যোতির্বিজ্ঞান"]}
+ ]},
+ {id:"chemistry",name:"Chemistry",icon:"⚗",color:"#bd65e8",papers:[
+  {name:"Chemistry 1st Paper",chapters:["ল্যাবরেটরির নিরাপদ ব্যবহার","গুণগত রসায়ন","মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন","রাসায়নিক পরিবর্তন","কর্মমুখী রসায়ন"]},
+  {name:"Chemistry 2nd Paper",chapters:["পরিবেশ রসায়ন","জৈব রসায়ন","পরিমাণগত রসায়ন","তড়িৎ রসায়ন","অর্থনৈতিক রসায়ন"]}
+ ]},
+ {id:"biology",name:"Biology",icon:"❧",color:"#48c878",papers:[
+  {name:"Biology 1st Paper",chapters:["কোষ ও এর গঠন","কোষ বিভাজন","কোষ রসায়ন","অণুজীব","শৈবাল ও ছত্রাক","ব্রায়োফাইটা ও টেরিডোফাইটা","নগ্নবীজী ও আবৃতবীজী উদ্ভিদ","টিস্যু ও টিস্যুতন্ত্র","উদ্ভিদ শারীরতত্ত্ব","উদ্ভিদ প্রজনন","জীবপ্রযুক্তি","জীবের পরিবেশ, বিস্তার ও সংরক্ষণ"]},
+  {name:"Biology 2nd Paper",chapters:["প্রাণীর বিভিন্নতা ও শ্রেণিবিন্যাস","প্রাণীর পরিচিতি","পরিপাক ও শোষণ","রক্ত সংবহন","শ্বাসন ও শ্বাসক্রিয়া","বর্জ্য ও নিষ্কাশন","চলন ও অঙ্গচালনা","সমন্বয় ও নিয়ন্ত্রণ","মানব জীবনের ধারাবাহিকতা","মানবদেহের প্রতিরক্ষা","জীবের জিনতত্ত্ব ও বিবর্তন","প্রাণীর আচরণ"]}
+ ]}
+];
+const STORAGE_KEY="grimoire-chapter-mastery-v1";
+let progress={};
+try{progress=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")||{}}catch(e){progress={}}
+const allChapters=()=>subjects.flatMap(s=>s.papers.flatMap((p,pi)=>p.chapters.map((name,ci)=>({key:`${s.id}-${pi}-${ci}`,subject:s.id,paper:pi,name}))));
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(progress))}catch(e){}}
+function roundOf(key){return Math.max(0,Math.min(4,Number(progress[key])||0))}
+function render(){
+ const query=document.getElementById("search").value.trim().toLowerCase();
+ const sf=document.getElementById("subjectFilter").value, st=document.getElementById("statusFilter").value;
+ const root=document.getElementById("subjects");root.innerHTML="";
+ let shown=0;
+ subjects.forEach(s=>{
+  if(sf!=="all"&&sf!==s.id)return;
+  const visiblePapers=s.papers.map((p,pi)=>({p,pi,items:p.chapters.map((name,ci)=>({name,key:`${s.id}-${pi}-${ci}`,ci,round:roundOf(`${s.id}-${pi}-${ci}`)})).filter(c=>(!query||c.name.toLowerCase().includes(query)||(`${s.name} ${p.name}`).toLowerCase().includes(query))&&(st==="all"||String(c.round)===st))})).filter(x=>x.items.length);
+  if(!visiblePapers.length)return;
+  shown+=visiblePapers.reduce((n,x)=>n+x.items.length,0);
+  const total=s.papers.reduce((n,p)=>n+p.chapters.length,0);
+  const mastered=s.papers.reduce((n,p,pi)=>n+p.chapters.filter((_,ci)=>roundOf(`${s.id}-${pi}-${ci}`)===4).length,0);
+  const rounds=s.papers.reduce((n,p,pi)=>n+p.chapters.reduce((m,_,ci)=>m+roundOf(`${s.id}-${pi}-${ci}`),0),0);
+  const section=document.createElement("section");section.className="subject";
+  section.innerHTML=`<div class="subject-head"><div class="subject-title"><span class="symbol" style="color:${s.color}">${s.icon}</span>${s.name}</div><small>${mastered}/${total} mastered · ${Math.round(mastered/total*100)}% fully mastered · ${rounds} rounds</small></div><div class="progress"><i style="width:${rounds/(total*4)*100}%;background:${s.color}"></i></div><div class="papers">${visiblePapers.map(({p,pi,items})=>`<div class="paper"><h3>${p.name}</h3><div class="chapters">${items.map(c=>`<button class="chapter ${c.round?`done${c.round}`:""}" data-key="${c.key}" title="Click to advance round (${c.round}/4)"><span class="num">${c.round===0?String(c.ci+1).padStart(2,"0"):["","✓","Ⅱ","Ⅲ","★"][c.round]}</span><span class="chapter-name">${c.name}</span></button>`).join("")}</div></div>`).join("")}</div>`;
+  root.appendChild(section);
+ });
+ document.getElementById("empty").style.display=shown?"none":"block";
+ const all=allChapters(),total=all.length,rounds=all.reduce((n,c)=>n+roundOf(c.key),0),mastered=all.filter(c=>roundOf(c.key)===4).length;
+ const pct=Math.round(rounds/(total*4)*100);
+ document.getElementById("overall").textContent=pct+"%";document.getElementById("overallBar").style.width=pct+"%";
+ document.getElementById("mastered").textContent=`${mastered} / ${total}`;document.getElementById("rounds").textContent=rounds;
+ let rank="Novice",desc="Start your journey.";
+ if(pct>=100){rank="Wizard King";desc="All chapters mastered!";}
+ else if(pct>=75){rank="Grand Magic Knight";desc="Your grimoire is nearly complete.";}
+ else if(pct>=50){rank="Magic Knight";desc="Your power is growing.";}
+ else if(pct>=25){rank="Junior Knight";desc="Keep building your mastery.";}
+ else if(pct>=10){rank="Apprentice";desc="Your journey is underway.";}
+ document.getElementById("rank").textContent=rank;document.getElementById("rankText").textContent=desc;
+}
+document.getElementById("subjects").addEventListener("click",e=>{const b=e.target.closest("[data-key]");if(!b)return;const k=b.dataset.key;progress[k]=(roundOf(k)+1)%5;if(progress[k]===0)delete progress[k];save();render()});
+["search","subjectFilter","statusFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));
+document.getElementById("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({version:1,progress},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="grimoire-progress-backup.json";a.click();URL.revokeObjectURL(a.href)});
+document.getElementById("importBtn").addEventListener("click",()=>document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());const incoming=data.progress||data;if(!incoming||typeof incoming!=="object")throw new Error();progress={};allChapters().forEach(c=>{const n=Number(incoming[c.key]);if(n>=1&&n<=4)progress[c.key]=Math.floor(n)});save();render();alert("Backup imported.")}catch(err){alert("Could not import this file. Please choose a valid Grimoire backup.")}e.target.value=""});
+document.getElementById("resetBtn").addEventListener("click",()=>{if(confirm("Reset all chapter progress? Export a backup first if you want to keep it.")){progress={};save();render()}});
+render();
+</script>
+</body>
+                        </html>
